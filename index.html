@@ -23,7 +23,8 @@
     <button id="btn">Send</button>
 
     <script>
-        var sock = new WebSocket("ws://127.0.0.1:5501/");
+        // WebSocket接続先URLを動的に設定 (wss://を使用)
+        var sock = new WebSocket(`wss://${window.location.host}/`);
         var out = document.getElementById("out");
         var msg = document.getElementById("msg");
         var btn = document.getElementById("btn");
