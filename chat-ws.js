@@ -1,8 +1,8 @@
 const WebSocketServer = require("ws").Server;
 const express = require("express");
-const http = require("http");
-const path = require("path");
-const cors = require("cors"); // CORSモジュールを追加
+const http = require("node:http");
+const path = require("node:path");
+const cors = require("cors");
 
 // Expressサーバーを作成
 const app = express();
@@ -18,12 +18,12 @@ const wss = new WebSocketServer({ server });
 app.use(express.static(path.join(__dirname)));
 
 // WebSocketクライアントから接続されたときの処理
-wss.on("connection", function (ws) {
+wss.on("connection", (ws) => {
 	let clientName = ""; // クライアントの名前を保持
 
 	// クライアントからメッセージを受信したとき
-	ws.on("message", function (message) {
-		let parsedMessage = message.toString().split(": ");
+	ws.on("message", (message) => {
+		const parsedMessage = message.toString().split(": ");
 		if (parsedMessage.length === 2) {
 			clientName = parsedMessage[0];
 			message = parsedMessage[1];
@@ -31,14 +31,14 @@ wss.on("connection", function (ws) {
 		console.log(`${clientName} says:`, message);
 
 		// 全ての接続されているクライアントにメッセージを送信
-		wss.clients.forEach(function (client) {
+		for (const client of wss.clients) {
 			if (client.readyState === ws.OPEN) {
 				client.send(`${clientName}: ${message}`);
 			}
-		});
+		}
 	});
 
-	ws.on("close", function () {
+	ws.on("close", () => {
 		console.log(`${clientName} disconnected`);
 	});
 });
