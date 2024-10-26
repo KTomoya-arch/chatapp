@@ -44,7 +44,7 @@ wss.on("connection", function (ws) {
 });
 
 // Herokuの環境変数 `PORT` を使用
-const PORT = process.env.PORT || 5501;
-server.listen(PORT, function () {
+const PORT = process.env.PORT || 8080;
+server.listen(PORT, () => {
 	console.log(`Server is listening on port ${PORT}`);
 });
