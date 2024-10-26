@@ -1,18 +1,18 @@
-var WebSocketServer = require("ws").Server;
-var express = require("express");
-var http = require("http");
-var path = require("path");
-var cors = require("cors"); // CORSモジュールを追加
+const WebSocketServer = require("ws").Server;
+const express = require("express");
+const http = require("http");
+const path = require("path");
+const cors = require("cors"); // CORSモジュールを追加
 
 // Expressサーバーを作成
-var app = express();
-var server = http.createServer(app);
+const app = express();
+const server = http.createServer(app);
 
 // CORSを有効化
 app.use(cors());
 
 // WebSocketサーバーをExpressサーバーと同じポートで立てる
-var wss = new WebSocketServer({ server });
+const wss = new WebSocketServer({ server });
 
 // 静的ファイル（index.html）を提供
 app.use(express.static(path.join(__dirname)));
